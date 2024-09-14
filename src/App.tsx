@@ -26,6 +26,7 @@ export default function App() {
   }, [task]);
 
   const handlePriorityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log("##### handle change", event.target.value)
     const selectedPriority = event.target.value;
     setNewPriority(selectedPriority);
   };
@@ -92,12 +93,13 @@ export default function App() {
           placeholder="Date due"
         />
         <label htmlFor="priority"></label>
-          <select name="chosen-priority" defaultValue="Priority" id="priority-answer" onChange={handlePriorityChange}>     
-              <option value="high">High</option>
+          <select name="chosen-priority" id="priority-answer" onChange={handlePriorityChange}>     
               <option value="" disabled selected hidden>Priority</option>
+              <option value="high">High</option>
+              
               <option value="medium">Medium</option>
               <option value="low">Low</option>
-              setNewPriority();
+              {/* setNewPriority(); */}
           </select>
 
         <button type="submit" disabled={!newName}>
