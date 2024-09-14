@@ -170,7 +170,8 @@ button {
   padding-left: 16px;
   padding-right: calc(16px + 10vw);
   animation: 0.15s ease-in-out message; 
-  box-sizing: content-box;
+  
+  /* box-sizing: content-box; */
 }
 
 @media (prefers-reduced-motion) {
