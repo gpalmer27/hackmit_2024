@@ -12,6 +12,9 @@ export default function App() {
   // send adds a new row to the table
   const sendTask = useMutation(api.tasks.send);
 
+  const deleteTask = useMutation(api.tasks.deleteTaskByName);
+
+
   const [newName, setNewName] = useState("");
   const [newCategory, setNewCategory] = useState("");
   const [newDate, setNewDate] = useState("");
@@ -41,17 +44,35 @@ const sortedTasks = task?.slice().sort((a, b) => {
   return (
     <main className= "chat">
       <header>
-        <h1>Reach for the Tasks</h1>
+        <h1>Cosmic Checklist</h1>
       </header>
       {sortedTasks?.map((tasks) => (
         <article className={`task-box priority-${tasks.priority}`}>
 
-          <p>Task name: {tasks.category} <br></br>
+          <p>Task name: {tasks.name} <br></br>
           Description: {tasks.description} <br></br>
           Category: {tasks.category} <br></br>
           Priority: {tasks.priority} <br></br>
           Date due: {tasks.date}
+          <button
+            className="complete-button"
+            onClick={async () => {
+              try {
+                const result = await deleteTask({ name: tasks.name });
+                if (result.success) {
+                  console.log("Task deleted successfully");
+                } else {
+                  console.error(result.message || "Failed to delete task");
+                }
+              } catch (error) {
+                console.error("Failed to delete task", error);
+              }
+            }}
+          >
+            Complete
+          </button>
           </p>
+    
         </article>
       ))}
       <form
