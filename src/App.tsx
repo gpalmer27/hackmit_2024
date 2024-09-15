@@ -12,6 +12,9 @@ export default function App() {
   // send adds a new row to the table
   const sendTask = useMutation(api.tasks.send);
 
+  const deleteTask = useMutation(api.tasks.deleteTaskByName);
+
+
   const [newName, setNewName] = useState("");
   const [newCategory, setNewCategory] = useState("");
   const [newDate, setNewDate] = useState("");
@@ -29,22 +32,48 @@ export default function App() {
     console.log("##### handle change", event.target.value)
     const selectedPriority = event.target.value;
     setNewPriority(selectedPriority);
-  };
+};
+
+
+const priorityOrder: { [key in "high" | "medium" | "low"]: number } = { high: 1, medium: 2, low: 3 };
+
+// Sort tasks by priority
+const sortedTasks = task?.slice().sort((a, b) => {
+  return priorityOrder[a.priority as "high" | "medium" | "low"] - priorityOrder[b.priority as "high" | "medium" | "low"];
+});
 
   return (
-    <main className="chat">
+    <main className= "chat">
       <header>
-        <h1>Reach for the Tasks</h1>
+        <h1>Cosmic Checklist</h1>
       </header>
-      {task?.map((tasks) => (
-        <article>
+      {sortedTasks?.map((tasks) => (
+        <article className={`task-box priority-${tasks.priority}`}>
 
-          <p>Task name: {tasks.category} <br></br>
+          <p>Task name: {tasks.name} <br></br>
           Description: {tasks.description} <br></br>
           Category: {tasks.category} <br></br>
           Priority: {tasks.priority} <br></br>
           Date due: {tasks.date}
+          <button
+            className="complete-button"
+            onClick={async () => {
+              try {
+                const result = await deleteTask({ name: tasks.name });
+                if (result.success) {
+                  console.log("Task deleted successfully");
+                } else {
+                  console.error(result.message || "Failed to delete task");
+                }
+              } catch (error) {
+                console.error("Failed to delete task", error);
+              }
+            }}
+          >
+            Complete
+          </button>
           </p>
+    
         </article>
       ))}
       <form
@@ -100,7 +129,9 @@ export default function App() {
               <option value="medium">Medium</option>
               <option value="low">Low</option>
               setNewPriority();
+
           </select>
+          
 
         <button type="submit" disabled={!newName}>
           Send
