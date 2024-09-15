@@ -99,7 +99,7 @@ export default function App() {
               
               <option value="medium">Medium</option>
               <option value="low">Low</option>
-              {/* setNewPriority(); */}
+              setNewPriority();
           </select>
 
         <button type="submit" disabled={!newName}>
