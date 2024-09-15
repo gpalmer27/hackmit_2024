@@ -10,3 +10,11 @@ This project entails a star-themed task manager website as well as a google chro
 # Important Links
 - Convex tutorial used: [Go check out the tutorial](https://convex.dev/start)
 - Figma: https://www.figma.com/design/1esraD9IdAPiOgvJLLYBUP/CosmicChecklist?node-id=0-1&m=dev
+
+# Tech Stack
+- Convex
+- React
+- Typescript
+- HTML
+- CSS
+- JSON
